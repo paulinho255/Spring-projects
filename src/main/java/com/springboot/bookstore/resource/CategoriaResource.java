@@ -16,6 +16,9 @@ public class CategoriaResource {
 	@Autowired
 	private CategoriaService categoriaService;
 	
+	/* Consulta no curl
+	 * curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/categorias/1
+	 * */
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Categoria> findById(@PathVariable Integer id){
 		Categoria obj = categoriaService.findById(id);
