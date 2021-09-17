@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.springboot.bookstore.DTO.CategoriaDTO;
@@ -13,6 +14,7 @@ import com.springboot.bookstore.repository.CategoriaRepository;
 
 @Service
 public class CategoriaService {
+	
 	@Autowired
 	private CategoriaRepository repository;
 
@@ -30,14 +32,20 @@ public class CategoriaService {
 		obj.setId(null);
 		return repository.save(obj);
 	}
+	
 	public Categoria update(Integer id, CategoriaDTO obj) {
 		Categoria categoria = findById(id);
 		categoria.setNome(obj.getNome());
 		categoria.setDescricao(obj.getDescricao());
 		return repository.save(categoria);
 	}
+	
 	public void delete(Integer id) {
 		findById(id);
-		repository.deleteById(id);
+		try {
+			repository.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new com.springboot.bookstore.exceptions.DataIntegrityViolationException("Object Categoria cannot be deleted. There are books associate to the object. ");
+		}
 	}
 }
