@@ -74,4 +74,11 @@ public class LivroResource {
 								.toUri();
 		return ResponseEntity.created(uri).build();
 	}
+	/* Deletar uma informação do banco de dados
+	 * curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X DELETE http://localhost:8080/livros/2
+	 * */
+	public ResponseEntity<Void> delete(@PathVariable Integer id){
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 }
