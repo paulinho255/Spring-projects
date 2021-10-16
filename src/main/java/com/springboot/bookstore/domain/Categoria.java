@@ -9,6 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -21,7 +24,12 @@ public class Categoria implements Serializable{
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@NotEmpty(message = "Name is required.")
+	@Length(min = 2, max = 100, message = "The lenght must be between 2 and 100 chacters.")
 	private String nome;
+	
+	@NotEmpty(message = "Description is required.")
+	@Length(min = 2, max = 200, message = "The lenght must be between 2 and 200 chacters.")
 	private String descricao;
 	
 	@JsonIgnoreProperties("categoria")
